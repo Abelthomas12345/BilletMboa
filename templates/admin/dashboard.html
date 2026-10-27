@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Administration{% endblock %}
+{% block contenu %}
+<h1>Tableau de bord</h1>
+<ul>
+    <li>{{ nb_ev }} événement(s) enregistré(s)</li>
+    <li>{{ nb_billets }} billet(s) vendu(s)</li>
+    <li>{{ nb_scannes }} billet(s) scanné(s)</li>
+</ul>
+<nav class="actions-admin">
+    <a class="bouton" href="{{ url_for('admin_evenements') }}">Gérer les événements</a>
+    <a class="bouton" href="{{ url_for('admin_controle') }}">Contrôle d'entrée</a>
+    <a class="bouton" href="{{ url_for('admin_stats') }}">Statistiques</a>
+</nav>
+{% endblock %}

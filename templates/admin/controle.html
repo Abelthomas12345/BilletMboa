@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Contrôle d'entrée{% endblock %}
+{% block contenu %}
+<h1>Contrôle d'entrée</h1>
+<form id="form-controle" novalidate>
+    <p>
+        <label for="code">Code du billet</label>
+        <input type="text" id="code" name="code" required autofocus autocomplete="off">
+    </p>
+    <p><button type="submit" class="bouton">Vérifier</button></p>
+</form>
+
+<div id="resultat-controle" role="status" aria-live="polite"></div>
+
+<noscript>
+    <p>Le JavaScript est désactivé : utilisez le formulaire ci-dessous.</p>
+    <form method="post" action="{{ url_for('admin_controle') }}">
+        <label for="code-nojs">Code</label>
+        <input type="text" id="code-nojs" name="code" required>
+        <button type="submit" class="bouton">Vérifier</button>
+    </form>
+</noscript>
+
+{% if resultat %}
+<div class="resultat resultat-{{ resultat.statut }}">
+    <p>{{ resultat.message }}</p>
+    {% if resultat.billet %}
+        <p><strong>{{ resultat.billet.nom_acheteur }}</strong> —
+           {{ resultat.billet.categorie_nom }} —
+           {{ resultat.billet.evenement_titre }}</p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/controle.js') }}"></script>
+{% endblock %}

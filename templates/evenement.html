@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ ev.titre }} — BilletMboa{% endblock %}
+{% block contenu %}
+<article class="detail-evenement">
+    <h1>{{ ev.titre }}</h1>
+    <p class="artiste">{{ ev.artiste }}</p>
+    <p class="date" data-compte="{{ ev.date_heure }}">📅 {{ ev.date_heure[:16].replace('T', ' ') }}</p>
+    <p class="lieu">📍 {{ ev.salle_nom }} — {{ ev.salle_ville }} ({{ ev.salle_capacite }} places)</p>
+    <p class="description">{{ ev.description }}</p>
+
+    <h2>Places restantes</h2>
+   <div class="table-responsive">
+        <table>
+            <thead>
+                <tr><th>Catégorie</th><th>Prix</th><th>Restantes</th></tr>
+            </thead>
+            <tbody id="places-body">
+                {% for c in cats %}
+                    <tr>
+                        <td>{{ c.nom }}</td>
+                        <td>{{ c.prix }} FCFA</td>
+                        <td class="restant">{{ c.quota - c.vendus }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+   </div>
+    <p><a class="bouton" href="{{ url_for('achat', event_id=ev.id) }}">Acheter des billets</a></p>
+    <p id="compte-a-rebours" class="compte" aria-live="polite"></p>
+</article>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/evenement.js') }}"></script>
+{% endblock %}

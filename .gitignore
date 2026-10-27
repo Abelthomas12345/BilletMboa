@@ -1,0 +1,43 @@
+
+
+# Python/Flask
+__pycache__/
+*.pyc
+*.pyo
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+migrations/
+instance/
+*.sqlite3
+*.db
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Environnements
+.env
+.env.*
+
+# Coverage
+htmlcov/
+coverage/
+
+# Autres fichiers temporaires
+tmp/
+temp/
+.cache/

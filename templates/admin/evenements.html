@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Événements{% endblock %}
+{% block contenu %}
+<h1>Événements</h1>
+<p><a class="bouton" href="{{ url_for('admin_evenement_nouveau') }}">+ Nouvel événement</a></p>
+<div class="table-responsive">
+    <table>
+        <thead>
+            <tr><th>Titre</th><th>Artiste</th><th>Salle</th><th>Date</th><th>Publié</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for e in evenements %}
+            <tr>
+                <td>{{ e.titre }}</td>
+                <td>{{ e.artiste }}</td>
+                <td>{{ e.salle_nom }} ({{ e.salle_ville }})</td>
+                <td>{{ e.date_heure[:16].replace('T', ' ') }}</td>
+                <td>{{ 'Oui' if e.publie else 'Non' }}</td>
+                <td>
+                    <form method="post" action="{{ url_for('admin_publier', event_id=e.id) }}" class="inline">
+                        <button type="submit" class="bouton">
+                            {{ 'Dépublier' if e.publie else 'Publier' }}
+                        </button>
+                    </form>
+                    <a class="bouton" href="{{ url_for('admin_categories', event_id=e.id) }}">Catégories</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

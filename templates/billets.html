@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Billets achetés{% endblock %}
+{% block contenu %}
+<h1>Vos billets</h1>
+<p>Merci {{ nom }} ! Voici vos codes à conserver :</p>
+<ul class="liste-codes">
+    {% for code in codes %}
+        <li><code>{{ code }}</code></li>
+    {% endfor %}
+</ul>
+<p><a class="bouton" href="{{ url_for('index') }}">Retour à l'agenda</a></p>
+{% endblock %}

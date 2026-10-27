@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Connexion{% endblock %}
+{% block contenu %}
+<h1>Connexion</h1>
+<form method="post" action="{{ url_for('login') }}">
+    <p>
+        <label for="login">Identifiant</label>
+        <input type="text" id="login" name="login" required autocomplete="username">
+    </p>
+    <p>
+        <label for="mot_de_passe">Mot de passe</label>
+        <input type="password" id="mot_de_passe" name="mot_de_passe" required autocomplete="current-password">
+    </p>
+    <p><button type="submit" class="bouton">Se connecter</button></p>
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Nouvel événement{% endblock %}
+{% block contenu %}
+<h1>Nouvel événement</h1>
+<form method="post" action="{{ url_for('admin_evenement_nouveau') }}" id="form-evenement" novalidate>
+    <p><label for="titre">Titre</label>
+       <input type="text" id="titre" name="titre" required minlength="2"></p>
+    <p><label for="artiste">Artiste / troupe</label>
+       <input type="text" id="artiste" name="artiste" required minlength="2"></p>
+    <p>
+        <label for="salle_id">Salle</label>
+        <select id="salle_id" name="salle_id" required>
+            {% for s in salles %}
+                <option value="{{ s.id }}">{{ s.nom }} — {{ s.ville }} ({{ s.capacite }} places)</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p><label for="date">Date</label>
+       <input type="date" id="date" name="date" required></p>
+    <p><label for="heure">Heure</label>
+       <input type="time" id="heure" name="heure" required></p>
+    <p><label for="description">Description</label>
+       <textarea id="description" name="description" rows="3"></textarea></p>
+    <p><label><input type="checkbox" name="publie" value="1"> Publier immédiatement</label></p>
+    <p><button type="submit" class="bouton">Créer</button></p>
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/evenement_form.js') }}"></script>
+{% endblock %}

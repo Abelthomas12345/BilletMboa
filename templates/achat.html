@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Achat — {{ ev.titre }}{% endblock %}
+{% block contenu %}
+<h1>Acheter des billets — {{ ev.titre }}</h1>
+
+{% if erreurs %}
+<div class="erreurs" role="alert">
+    <ul>
+        {% for e in erreurs %}<li>{{ e }}</li>{% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="post" action="{{ url_for('achat', event_id=ev.id) }}" id="form-achat" novalidate>
+    <p>
+        <label for="categorie_id">Catégorie</label>
+        <select id="categorie_id" name="categorie_id" required>
+            {% for c in cats %}
+                <option value="{{ c.id }}" data-restants="{{ c.quota - c.vendus }}">
+                    {{ c.nom }} — {{ c.prix }} FCFA ({{ c.quota - c.vendus }} restants)
+                </option>
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        <label for="nom">Nom complet</label>
+        <input type="text" id="nom" name="nom" required minlength="2">
+    </p>
+    <p>
+        <label for="telephone">Téléphone</label>
+        <input type="tel" id="telephone" name="telephone" required minlength="8">
+    </p>
+    <p>
+        <label for="quantite">Quantité (1 à 5)</label>
+        <input type="number" id="quantite" name="quantite" min="1" max="5" value="1" required>
+    </p>
+    <p><button type="submit" class="bouton">Payer et générer les codes</button></p>
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/achat.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Agenda — BilletMboa{% endblock %}
+{% block contenu %}
+<h1>Agenda des événements</h1>
+
+<form method="get" action="{{ url_for('index') }}" class="filtre">
+    <label for="ville">Filtrer par ville :</label>
+    <select id="ville" name="ville">
+        <option value="">Toutes</option>
+        {% for v in villes %}
+            <option value="{{ v }}" {% if v == ville %}selected{% endif %}>{{ v }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="bouton">Filtrer</button>
+</form>
+
+{% if evenements %}
+    <ul class="agenda">
+        {% for e in evenements %}
+            <li class="carte-evenement">
+                <a href="{{ url_for('evenement', event_id=e.id) }}">
+                    <h2>{{ e.titre }}</h2>
+                    <p class="artiste">{{ e.artiste }}</p>
+                    <p class="date">📅 {{ e.date_heure[:16].replace('T', ' ') }}</p>
+                    <p class="lieu">📍 {{ e.salle_nom }} — {{ e.salle_ville }}</p>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun événement trouvé.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Statistiques{% endblock %}
+{% block contenu %}
+<h1>Statistiques</h1>
+
+<h2>Taux de remplissage</h2>
+<table>
+    <thead><tr><th>Événement</th><th>Capacité</th><th>Quotas</th><th>Vendus</th><th>Taux</th></tr></thead>
+    <tbody>
+        {% for r in remplissage %}
+        <tr>
+            <td>{{ r.titre }}</td>
+            <td>{{ r.capacite }}</td>
+            <td>{{ r.total_quota }}</td>
+            <td>{{ r.vendus }}</td>
+            <td>{{ ((r.vendus / r.total_quota) * 100) | round(1) if r.total_quota else 0 }}%</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Recette par événement et catégorie</h2>
+<table>
+    <thead><tr><th>Événement</th><th>Catégorie</th><th>Prix</th><th>Vendus</th><th>Recette</th></tr></thead>
+    <tbody>
+        {% for r in recette %}
+        <tr>
+            <td>{{ r.titre }}</td>
+            <td>{{ r.categorie_nom }}</td>
+            <td>{{ r.prix }}</td>
+            <td>{{ r.vendus }}</td>
+            <td>{{ r.recette }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Billets scannés</h2>
+<p>{{ scannes }} / {{ total }} ({{ pct_scannes }}%)</p>
+
+<h2>Arrivées par tranche de 30 minutes</h2>
+<div class="table-responsive">
+    <table>
+        <thead><tr><th>Tranche</th><th>Nombre</th></tr></thead>
+        <tbody>
+            {% for a in arrivees %}
+            <tr><td>{{ a.tranche }}</td><td>{{ a.nb }}</td></tr>
+            {% else %}
+            <tr><td colspan="2">Aucun billet scanné pour l'instant.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
