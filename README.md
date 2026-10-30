@@ -1,66 +1,246 @@
-# BilletMboa — Billetterie de concerts et d'événements
+BilletMboa — Plateforme de billetterie événementielle
 
-Projet Technologies Web — Flask + SQLite
+BilletMboa est une application web de gestion et de réservation de billets pour des concerts et événements. Elle permet aux visiteurs de consulter les événements disponibles, de choisir une catégorie de billet et d'effectuer une réservation. Elle intègre également un espace d'administration destiné à la gestion des événements, des catégories, des ventes et du contrôle des entrées.
 
-## Installation
+---
 
-1. Copier le dossier `projet/`.
-2. (Optionnel mais recommandé) créer un environnement virtuel :
-   ```bash
-   python -m venv venv
-   venv\Scripts\activate      # Windows
-   source venv/bin/activate   # Linux / macOS
-   ```
-3. Installer les dépendances :
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Générer la base de test et l'export SQL :
-   ```bash
-   python donnees_test.py
-   ```
+Présentation
 
-## Lancement
+La gestion des réservations et du contrôle d'accès aux événements nécessite un suivi fiable des billets, des capacités d'accueil et des ventes.
 
-```bash
+BilletMboa propose une solution centralisée permettant de gérer le cycle de vie des billets, depuis la publication d'un événement jusqu'à la validation du billet à l'entrée.
+
+L'application repose sur une architecture web utilisant Flask côté serveur et SQLite pour la persistance des données.
+
+Fonctionnalités
+
+Espace public
+
+- Consultation de l'agenda des événements publiés.
+- Filtrage des événements par ville.
+- Consultation des détails d'un événement : artiste, date, salle, ville et capacité.
+- Affichage des places restantes par catégorie.
+- Réservation de 1 à 5 billets par commande.
+- Génération d'un code unique pour chaque billet acheté.
+
+Espace d'administration
+
+- Authentification de l'administrateur.
+- Tableau de bord de gestion.
+- Création et gestion des événements.
+- Publication et dépublication des événements.
+- Gestion des catégories de billets, des prix et des quotas.
+- Contrôle et validation des billets à l'entrée.
+- Consultation des statistiques d'exploitation.
+
+Contrôle des billets
+
+Chaque billet possède un code individuel permettant de vérifier sa validité.
+
+Le système distingue notamment :
+
+- Valide : le billet est reconnu et accepté lors du premier contrôle.
+- Déjà utilisé : le billet a déjà été scanné.
+- Inconnu : aucun billet ne correspond au code fourni.
+
+Statistiques
+
+L'espace d'administration permet de suivre plusieurs indicateurs :
+
+- Taux de remplissage des événements.
+- Recettes par événement et par catégorie.
+- Pourcentage de billets contrôlés.
+- Répartition des arrivées par tranches de 30 minutes.
+
+---
+
+Technologies utilisées
+
+Domaine| Technologies
+Backend| Python, Flask
+Base de données| SQLite
+Frontend| HTML5, CSS3
+Interactivité| JavaScript
+Communication asynchrone| Fetch API, JSON
+Authentification| Sessions Flask
+Sécurité des mots de passe| Werkzeug
+Versionnement| Git, GitHub
+
+---
+
+Architecture fonctionnelle
+
+L'application s'organise autour de trois espaces principaux :
+
+Espace| Responsabilités
+Public| Consultation des événements et réservation
+Administration| Gestion des événements, catégories, ventes et statistiques
+Contrôle d'accès| Vérification et validation des billets
+
+Modèle de données
+
+La base de données SQLite repose principalement sur les entités suivantes :
+
+- salles : informations sur les lieux accueillant les événements.
+- evenements : informations relatives aux concerts et événements.
+- categories_billet : catégories, prix et quotas de billets.
+- billets : informations sur les réservations, les codes et l'état de contrôle.
+
+Les relations entre les tables et les contraintes d'intégrité sont définies dans "schema.sql".
+
+---
+
+API JSON
+
+L'application expose notamment les routes suivantes :
+
+Méthode| Endpoint| Description
+GET| "/api/evenements/<id>/places"| Consultation des places restantes par catégorie
+POST| "/api/controle"| Vérification d'un code de billet
+
+Les échanges utilisent le format JSON. Le navigateur communique avec les routes concernées à l'aide de l'API Fetch.
+
+---
+
+Installation et exécution
+
+Prérequis
+
+Avant de commencer, assurez-vous de disposer des éléments suivants :
+
+- Python 3.10 ou supérieur.
+- pip.
+- Git.
+- Un navigateur web récent.
+
+1. Cloner le dépôt
+
+git clone https://github.com/Abelthomas12345/GLO-5-Groupe11.git
+
+2. Accéder au projet
+
+cd GLO-5-Groupe11
+
+3. Créer un environnement virtuel
+
+Windows :
+
+python -m venv venv
+venv\Scripts\activate
+
+Linux / macOS :
+
+python3 -m venv venv
+source venv/bin/activate
+
+4. Installer les dépendances
+
+pip install -r requirements.txt
+
+5. Initialiser la base de données
+
+Le fichier "schema.sql" contient la structure de la base de données.
+
+Le script "donnees_test.py" permet de préparer les données de démonstration prévues pour le projet.
+
+python donnees_test.py
+
+6. Lancer l'application
+
 python app.py
-```
 
-Ouvrir ensuite http://127.0.0.1:5000
+Ouvrez ensuite votre navigateur à l'adresse :
 
-## Comptes de test
+http://127.0.0.1:5000/
 
-| Rôle          | Identifiant | Mot de passe |
-|---------------|-------------|--------------|
-| Administrateur| `admin`     | `admin123`   |
+«Note : la commande de lancement suppose que le point d'entrée Flask est "app.py". Si le fichier principal porte un autre nom dans le dépôt, adaptez cette commande.»
 
-## Fonctionnalités
+---
 
-### Partie publique
-- Agenda des événements à venir, filtrable par ville
-- Page d'un événement avec places restantes par catégorie
-- Achat de 1 à 5 billets avec génération de codes uniques
+Sécurité et intégrité des données
 
-### Espace d'administration (connexion)
-- Création et publication d'événements
-- Ajout de catégories (Standard / VIP) et de quotas
-- Contrôle d'entrée : saisie d'un code → réponse valide / déjà utilisé / inconnu
-- Statistiques : taux de remplissage, recette, % scannés, arrivées par tranche de 30 min
+Plusieurs mécanismes sont intégrés à l'application :
 
-### API JSON
-- `GET /api/evenements/<id>/places` → places restantes par catégorie
-- `POST /api/controle` → vérification d'un code (JSON)
+- Hachage des mots de passe avec Werkzeug.
+- Requêtes SQL paramétrées.
+- Validation des données côté serveur.
+- Génération de codes de billets imprévisibles.
+- Protection des routes d'administration par authentification.
+- Contraintes d'intégrité dans la base de données.
+- Vérification des quotas avant la création des billets.
+- Contrôle de l'utilisation unique d'un billet.
 
-## Sécurité
+Pour un déploiement en production, la clé secrète Flask doit être configurée à l'aide d'une variable d'environnement forte. Les protections CSRF, l'authentification des routes sensibles et la gestion des réservations concurrentes doivent également être vérifiées et renforcées.
 
-- Mots de passe hachés avec `generate_password_hash`
-- Requêtes SQL paramétrées (`?`)
-- Validation serveur systématique (quotas, capacités, longueurs, codes)
-- Suppressions / modifications uniquement en POST
-- Génération des codes via `secrets` (imprévisibles)
-- `debug=False` dans `app.run`
+---
 
-## Vérification W3C
+Interface et compatibilité
 
-Les pages principales (`index`, `evenement`, `achat`, `login`, `404`) sont validables sur
-<https://validator.w3.org/>; sans erreur.
+BilletMboa dispose d'une interface adaptative conçue pour une utilisation sur ordinateur et téléphone.
+
+Les principales interfaces comprennent :
+
+- L'agenda des événements.
+- La fiche détaillée d'un événement.
+- Le formulaire de réservation.
+- L'affichage des billets générés.
+- Le tableau de bord administrateur.
+- La gestion des événements et des catégories.
+- Les statistiques et le contrôle d'accès.
+
+---
+
+Structure du dépôt
+
+Projet
+│
+├── app.py
+├── requirements.txt
+├── schema.sql
+├── donnees_test.py
+├── README.md
+│
+├── templates/
+│   ├── base.html
+│   └── ...
+│
+├── static/
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+└── ...
+
+---
+
+Contexte du projet
+
+Information| Détail
+Projet| Projet 11 — Billetterie de concerts et d'événements
+Application| BilletMboa
+Filière| Génie Logiciel
+Niveau| GLO-5
+Module| Technologies Web
+Année académique| 2026–2027
+Type| Projet académique individuel
+
+---
+
+Évolutions envisageables
+
+- Intégration d'une solution de paiement en ligne.
+- Génération de billets au format PDF avec QR code.
+- Envoi automatique des confirmations de réservation.
+- Gestion avancée des comptes et des rôles.
+- Tableau de bord analytique enrichi.
+- Déploiement sur une infrastructure cloud.
+
+---
+
+Licence
+
+Projet réalisé dans un cadre académique. Toute réutilisation, modification ou distribution doit respecter les conditions définies par les auteurs du projet.
+
+---
+
+BilletMboa — Simplifier la réservation, maîtriser les accès et valoriser les événements.
